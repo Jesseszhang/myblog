@@ -146,7 +146,7 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                2
+                3
                 <span>文章</span>
             </div>
             <div class="article-info-block">
@@ -193,6 +193,130 @@
 
             
             <section id="main">
+    <article id="post-deepClone" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2017/07/26/deepClone/">实现一个简单的deepClone</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2017/07/26/deepClone/">
+            <time datetime="2017-07-26T12:30:50.000Z" itemprop="datePublished">2017-07-26</time>
+        </a>
+    </div>
+
+
+                        
+                        
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>深复制和浅复制区别在于深复制能够递归复制所有层级，浅复制有可能复制后地址指针还是指向原来的对象。JSON.parse(JSON.stringify(Object))这种方法的clone不会复制对象内部的函数指针。<br>支持深度复制的有很多，像jQuery的$.clone()和$.extend()、Underscore的clone()以及react的<a href="https://facebook.github.io/immutable-js/" target="_blank" rel="external">immutable</a>等等</p>
+<h3 id="一个简单的深度克隆实现"><a href="#一个简单的深度克隆实现" class="headerlink" title="一个简单的深度克隆实现"></a>一个简单的深度克隆实现</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> testArray = &#123;</div><div class="line">  <span class="attr">testString</span>: <span class="string">'testString'</span>,</div><div class="line">  <span class="attr">subArray</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</div><div class="line">  <span class="attr">subArrayString</span>: [<span class="string">'1'</span>, <span class="string">'2'</span>, <span class="string">'3'</span>],</div><div class="line">  <span class="attr">fun</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="literal">false</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">testObject</span>: &#123;</div><div class="line">    <span class="attr">subTestString</span>: <span class="string">'subTestString'</span>,</div><div class="line">    <span class="attr">subtestObject</span>: &#123;</div><div class="line">      <span class="attr">subSecondArray</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</div><div class="line">      <span class="attr">subSecondString</span>: <span class="string">"subSecondString"</span></div><div class="line">    &#125;,</div><div class="line">    <span class="attr">subTestArray</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</div><div class="line">    <span class="attr">subTestArrayString</span>: [<span class="string">'1'</span>, <span class="string">'2'</span>, <span class="string">'3'</span>]</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">deepCopy</span>(<span class="params">targetObject, clone</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> cloneObject = clone || &#123;&#125;</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i <span class="keyword">in</span> targetObject) &#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> targetObject[i] === <span class="string">'object'</span>) &#123;</div><div class="line">      <span class="comment">/**</span></div><div class="line">       * typeof 无法判断array类型。其返回值有number、string、object、boolean、function、undefined</div><div class="line">       * typeof(null) =&gt; object tpyeof(array) =&gt; object</div><div class="line">       */</div><div class="line">      <span class="keyword">if</span> (targetObject[i].constructor === <span class="built_in">Array</span>) &#123;</div><div class="line">        cloneObject[i] = []</div><div class="line">      &#125; <span class="keyword">else</span> &#123;</div><div class="line">        cloneObject[i] = &#123;&#125;</div><div class="line">      &#125;</div><div class="line">      <span class="comment">// 对象数组要再次递归调用直到没有</span></div><div class="line">      deepCopy(targetObject[i], cloneObject[i])</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">      <span class="comment">// 不是对象和数据，直接赋值</span></div><div class="line">      cloneObject[i] = targetObject[i]</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> cloneObject</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> cloneTest = &#123;</div><div class="line">  <span class="attr">cloneString</span>: <span class="string">'cloneString'</span>,</div><div class="line">  <span class="attr">cloneArray</span>: [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>],</div><div class="line">  <span class="attr">cloneObject</span>: &#123;</div><div class="line">    <span class="attr">subCloneString</span>: <span class="string">'subCloneString'</span>,</div><div class="line">    <span class="attr">subCloneArray</span>: [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>],</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">result = deepCopy(testArray, cloneTest)</div><div class="line"><span class="built_in">console</span>.dir(result)</div><div class="line">result.subArray.push(<span class="number">10</span>)</div><div class="line"><span class="built_in">console</span>.dir(result.subArray)</div><div class="line"><span class="built_in">console</span>.dir(result.fun())</div><div class="line">result.fun()</div><div class="line"><span class="built_in">console</span>.dir(testArray.subArray)</div></pre></td></tr></table></figure>
+<p>最后附上<a href="http://jerryzou.com/posts/dive-into-deep-clone-in-javascript" target="_blank" rel="external">深入剖析 JavaScript 的深复制</a>可以详细了解深度复制，同时可以参考知乎问题<a href="https://www.zhihu.com/question/47746441" target="_blank" rel="external">JavaScript 如何完整实现深度Clone对象</a></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://zhangyanjian.com/2017/07/26/deepClone/" data-id="cj5l2f4qa0000394hmbg6cz2e" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="http://zhangyanjian.com/2017/07/26/deepClone/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://zhangyanjian.com/2017/07/26/deepClone/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-sort" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -263,7 +387,7 @@
 
 </div>
 
-    <a data-url="http://zhangyanjian.com/2017/07/24/sort/" data-id="cj5kzdr5s0002p04hintq4rtv" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+    <a data-url="http://zhangyanjian.com/2017/07/24/sort/" data-id="cj5l2f4ql0002394hgzl2o6xk" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -402,7 +526,7 @@
 
 </div>
 
-    <a data-url="http://zhangyanjian.com/2016/06/14/myblog/" data-id="cj5kzdr5z0004p04hkdzc1x2f" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+    <a data-url="http://zhangyanjian.com/2016/06/14/myblog/" data-id="cj5l2f4qm0003394h0pr1i9sl" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -489,6 +613,25 @@
         <h3 class="widget-title">最新文章</h3>
         <div class="widget">
             <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2017/07/26/deepClone/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2017/07/26/deepClone/" class="title">实现一个简单的deepClone</a></p>
+                            <p class="item-date"><time datetime="2017-07-26T12:30:50.000Z" itemprop="datePublished">2017-07-26</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         

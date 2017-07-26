@@ -3,21 +3,19 @@
 <head>
     <meta charset="utf-8">
     
-    <title>工欲善其事，必先利其器 | Jesse</title>
+    <title>实现一个简单的deepClone | Jesse</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="工欲善其事，必先利其器。mac不仅是制作音乐、设计、开发的很好的环境，上网娱乐也很不错，除了玩游戏其他都很强大。今天就聊一聊如何高效率的使用mac，以及介绍下mac那些好用的工具来提升自己的开发效率，文章会不定期更新。 Alfredmac上的工具不得不首先要说Alfred，有了Alfred 你甚至无需鼠标就可以实现各种操作，快速打开各中应用。你还可以配置工作流来完成更强大的功能。Alfred破解版">
+    <meta name="description" content="深复制和浅复制区别在于深复制能够递归复制所有层级，浅复制有可能复制后地址指针还是指向原来的对象。JSON.parse(JSON.stringify(Object))这种方法的clone不会复制对象内部的函数指针。支持深度复制的有很多，像jQuery的$.clone()和$.extend()、Underscore的clone()以及react的immutable等等 一个简单的深度克隆实现12345">
 <meta property="og:type" content="article">
-<meta property="og:title" content="工欲善其事，必先利其器">
-<meta property="og:url" content="http://zhangyanjian.com/2016/06/14/myblog/index.html">
+<meta property="og:title" content="实现一个简单的deepClone">
+<meta property="og:url" content="http://zhangyanjian.com/2017/07/26/deepClone/index.html">
 <meta property="og:site_name" content="Jesse">
-<meta property="og:description" content="工欲善其事，必先利其器。mac不仅是制作音乐、设计、开发的很好的环境，上网娱乐也很不错，除了玩游戏其他都很强大。今天就聊一聊如何高效率的使用mac，以及介绍下mac那些好用的工具来提升自己的开发效率，文章会不定期更新。 Alfredmac上的工具不得不首先要说Alfred，有了Alfred 你甚至无需鼠标就可以实现各种操作，快速打开各中应用。你还可以配置工作流来完成更强大的功能。Alfred破解版">
+<meta property="og:description" content="深复制和浅复制区别在于深复制能够递归复制所有层级，浅复制有可能复制后地址指针还是指向原来的对象。JSON.parse(JSON.stringify(Object))这种方法的clone不会复制对象内部的函数指针。支持深度复制的有很多，像jQuery的$.clone()和$.extend()、Underscore的clone()以及react的immutable等等 一个简单的深度克隆实现12345">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://zhangyanjian.com/gallery/instarectangle1.jpg">
-<meta property="og:updated_time" content="2017-07-18T05:57:28.000Z">
+<meta property="og:updated_time" content="2017-07-26T13:58:28.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="工欲善其事，必先利其器">
-<meta name="twitter:description" content="工欲善其事，必先利其器。mac不仅是制作音乐、设计、开发的很好的环境，上网娱乐也很不错，除了玩游戏其他都很强大。今天就聊一聊如何高效率的使用mac，以及介绍下mac那些好用的工具来提升自己的开发效率，文章会不定期更新。 Alfredmac上的工具不得不首先要说Alfred，有了Alfred 你甚至无需鼠标就可以实现各种操作，快速打开各中应用。你还可以配置工作流来完成更强大的功能。Alfred破解版">
-<meta name="twitter:image" content="http://zhangyanjian.com/gallery/instarectangle1.jpg">
+<meta name="twitter:title" content="实现一个简单的deepClone">
+<meta name="twitter:description" content="深复制和浅复制区别在于深复制能够递归复制所有层级，浅复制有可能复制后地址指针还是指向原来的对象。JSON.parse(JSON.stringify(Object))这种方法的clone不会复制对象内部的函数指针。支持深度复制的有很多，像jQuery的$.clone()和$.extend()、Underscore的clone()以及react的immutable等等 一个简单的深度克隆实现12345">
     
 
     
@@ -198,23 +196,15 @@
 </aside>
 
             
-            <section id="main"><article id="post-myblog" class="article article-type-post" itemscope itemprop="blogPost">
+            <section id="main"><article id="post-deepClone" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
-        
-            
-	
-		<img src="/gallery/instarectangle1.jpg" class="article-banner" />
-	
-
-
-
         
         
             <header class="article-header">
                 
     
         <h1 class="article-title" itemprop="name">
-            工欲善其事，必先利其器
+            实现一个简单的deepClone
         </h1>
     
 
@@ -223,8 +213,8 @@
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2016/06/14/myblog/">
-            <time datetime="2016-06-14T03:18:01.000Z" itemprop="datePublished">2016-06-14</time>
+        <a href="/2017/07/26/deepClone/">
+            <time datetime="2017-07-26T12:30:50.000Z" itemprop="datePublished">2017-07-26</time>
         </a>
     </div>
 
@@ -239,14 +229,9 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p>工欲善其事，必先利其器。mac不仅是制作音乐、设计、开发的很好的环境，上网娱乐也很不错，除了玩游戏其他都很强大。今天就聊一聊如何高效率的使用mac，以及介绍下mac那些好用的工具来提升自己的开发效率，文章会不定期更新。</p>
-<h3 id="Alfred"><a href="#Alfred" class="headerlink" title="Alfred"></a>Alfred</h3><p>mac上的工具不得不首先要说Alfred，有了Alfred 你甚至无需鼠标就可以实现各种操作，快速打开各中应用。你还可以配置工作流来完成更强大的功能。<a href="http://xclient.info/s/alfred.html?_=28224c24c5d048ba73bf06b15e2a6668" target="_blank" rel="external">Alfred破解版</a><br><img src="/img/workflow.png" alt="强大的工作流" align="center/"><br>yd “需要翻译的词语” 之后按回车复制，比如你敲着代码需要查某个单词直接 option+空格 yd 输入你想查询的单词，以后再也不需要切换界面打开软件聚焦输入…这么繁琐的工作了。工作流一步搞定。<a href="http://alfredworkflow.com/" target="_blank" rel="external">Alfred2工作流</a></p>
-<h3 id="BetterTouchTool"><a href="#BetterTouchTool" class="headerlink" title="BetterTouchTool"></a>BetterTouchTool</h3><p><img src="/img/touch.png" alt="BetterTouchTool" align="center/"><br>这个完全解决了我在mac上对全屏和缩小的不适应，可以定制很多手势来提高工作效率，例如mac上全屏和非全屏切换需要点击软件上的切换按钮，使用BetterTouchTool可以定义手势如双击全屏切换，拖拽等等，你可以定制很多你想要的想不到的手势超越mac官方自定义手势！</p>
-<h3 id="Moon"><a href="#Moon" class="headerlink" title="Moon"></a>Moon</h3><p>Moon这个软件也是对mac上软件快速排版比如开发时候多开多个软件通过Moon可以快速对软件进行排版快速高效率谁用谁知道</p>
-<h3 id="Dash"><a href="#Dash" class="headerlink" title="Dash"></a>Dash</h3><p><img src="/img/dash.jpg" alt="dash" align="center/"><br>一个强大的API开发手册查找，可以结合Alfred内置里面有工作流查找api很方便</p>
-<h3 id="Tuxera-Disk-Manager"><a href="#Tuxera-Disk-Manager" class="headerlink" title="Tuxera Disk Manager"></a>Tuxera Disk Manager</h3><p>通常情况下mac外接移动硬盘是没有读写权限，之前用过Mounty不好用，但是Tuxera Disk Manager是直接更改权限，不需要自己手动设置其他东西，唯一缺点就是不是免费的</p>
-<h3 id="Logic-pro-X"><a href="#Logic-pro-X" class="headerlink" title="Logic pro X"></a>Logic pro X</h3><p>mac上很强大的音乐制作软件，可以模拟很多效果器，玩音乐必备！同时还推荐Boom 3D这个听歌效果增强器，平时放歌打开还是不错的。</p>
-<h3 id="IDE"><a href="#IDE" class="headerlink" title="IDE"></a>IDE</h3><p>开发者工具用过很多 Webstrom，Sublime, Atom, VScode, 不过用来用去还是感觉VScode很强大很好用，其他都有各自的有优势吧，Webstrom功能很多很强大代码提示集合了很多插件支持型很好但是打开一个项目等好久太重。Sublime还不是不错的，安装插件后很强大毕竟老牌功能支持性都很完美，Atom后起之秀功能上也很不错只是插件比较少不够成熟。</p>
+            <p>深复制和浅复制区别在于深复制能够递归复制所有层级，浅复制有可能复制后地址指针还是指向原来的对象。JSON.parse(JSON.stringify(Object))这种方法的clone不会复制对象内部的函数指针。<br>支持深度复制的有很多，像jQuery的$.clone()和$.extend()、Underscore的clone()以及react的<a href="https://facebook.github.io/immutable-js/" target="_blank" rel="external">immutable</a>等等</p>
+<h3 id="一个简单的深度克隆实现"><a href="#一个简单的深度克隆实现" class="headerlink" title="一个简单的深度克隆实现"></a>一个简单的深度克隆实现</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> testArray = &#123;</div><div class="line">  <span class="attr">testString</span>: <span class="string">'testString'</span>,</div><div class="line">  <span class="attr">subArray</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</div><div class="line">  <span class="attr">subArrayString</span>: [<span class="string">'1'</span>, <span class="string">'2'</span>, <span class="string">'3'</span>],</div><div class="line">  <span class="attr">fun</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="literal">false</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">testObject</span>: &#123;</div><div class="line">    <span class="attr">subTestString</span>: <span class="string">'subTestString'</span>,</div><div class="line">    <span class="attr">subtestObject</span>: &#123;</div><div class="line">      <span class="attr">subSecondArray</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</div><div class="line">      <span class="attr">subSecondString</span>: <span class="string">"subSecondString"</span></div><div class="line">    &#125;,</div><div class="line">    <span class="attr">subTestArray</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</div><div class="line">    <span class="attr">subTestArrayString</span>: [<span class="string">'1'</span>, <span class="string">'2'</span>, <span class="string">'3'</span>]</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">deepCopy</span>(<span class="params">targetObject, clone</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> cloneObject = clone || &#123;&#125;</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i <span class="keyword">in</span> targetObject) &#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> targetObject[i] === <span class="string">'object'</span>) &#123;</div><div class="line">      <span class="comment">/**</span></div><div class="line">       * typeof 无法判断array类型。其返回值有number、string、object、boolean、function、undefined</div><div class="line">       * typeof(null) =&gt; object tpyeof(array) =&gt; object</div><div class="line">       */</div><div class="line">      <span class="keyword">if</span> (targetObject[i].constructor === <span class="built_in">Array</span>) &#123;</div><div class="line">        cloneObject[i] = []</div><div class="line">      &#125; <span class="keyword">else</span> &#123;</div><div class="line">        cloneObject[i] = &#123;&#125;</div><div class="line">      &#125;</div><div class="line">      <span class="comment">// 对象数组要再次递归调用直到没有</span></div><div class="line">      deepCopy(targetObject[i], cloneObject[i])</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">      <span class="comment">// 不是对象和数据，直接赋值</span></div><div class="line">      cloneObject[i] = targetObject[i]</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> cloneObject</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> cloneTest = &#123;</div><div class="line">  <span class="attr">cloneString</span>: <span class="string">'cloneString'</span>,</div><div class="line">  <span class="attr">cloneArray</span>: [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>],</div><div class="line">  <span class="attr">cloneObject</span>: &#123;</div><div class="line">    <span class="attr">subCloneString</span>: <span class="string">'subCloneString'</span>,</div><div class="line">    <span class="attr">subCloneArray</span>: [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>],</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">result = deepCopy(testArray, cloneTest)</div><div class="line"><span class="built_in">console</span>.dir(result)</div><div class="line">result.subArray.push(<span class="number">10</span>)</div><div class="line"><span class="built_in">console</span>.dir(result.subArray)</div><div class="line"><span class="built_in">console</span>.dir(result.fun())</div><div class="line">result.fun()</div><div class="line"><span class="built_in">console</span>.dir(testArray.subArray)</div></pre></td></tr></table></figure>
+<p>最后附上<a href="http://jerryzou.com/posts/dive-into-deep-clone-in-javascript" target="_blank" rel="external">深入剖析 JavaScript 的深复制</a>可以详细了解深度复制，同时可以参考知乎问题<a href="https://www.zhihu.com/question/47746441" target="_blank" rel="external">JavaScript 如何完整实现深度Clone对象</a></p>
 
         
         </div>
@@ -257,7 +242,7 @@
 
 </div>
 
-    <a data-url="http://zhangyanjian.com/2016/06/14/myblog/" data-id="cj5l2f4qm0003394h0pr1i9sl" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+    <a data-url="http://zhangyanjian.com/2017/07/26/deepClone/" data-id="cj5l2f4qa0000394hmbg6cz2e" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -325,7 +310,7 @@
 
             
     
-        <a href="http://zhangyanjian.com/2016/06/14/myblog/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://zhangyanjian.com/2016/06/14/myblog/">评论</a>
+        <a href="http://zhangyanjian.com/2017/07/26/deepClone/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://zhangyanjian.com/2017/07/26/deepClone/">评论</a>
     
 
         </footer>
@@ -334,15 +319,11 @@
         
 <nav id="article-nav">
     
-        <a href="/2017/07/24/sort/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">上一篇</strong>
-            <div class="article-nav-title">
-                
-                    常用排序
-                
-            </div>
-        </a>
     
+        <a href="/2017/07/24/sort/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">常用排序</div>
+        </a>
     
 </nav>
 
@@ -453,9 +434,9 @@
     <script>
     var disqus_config = function () {
         
-            this.page.url = 'http://zhangyanjian.com/2016/06/14/myblog/';
+            this.page.url = 'http://zhangyanjian.com/2017/07/26/deepClone/';
         
-        this.page.identifier = 'myblog';
+        this.page.identifier = 'deepClone';
     };
     (function() { 
         var d = document, s = d.createElement('script');  
